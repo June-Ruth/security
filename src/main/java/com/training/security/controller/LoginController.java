@@ -21,4 +21,9 @@ public class LoginController {
         return "Welcome User";
     }
 
+    @GetMapping("/default")
+    public String welcomeByDefault() {
+        return "Welcome by default";
+    }
+
 }

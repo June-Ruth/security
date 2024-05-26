@@ -32,7 +32,8 @@ public class SpringSecurityConfiguration {
                         .requestMatchers("/user").hasRole(RoleType.USER)
                         .anyRequest().authenticated()
                 )
-                .formLogin(Customizer.withDefaults())
+                .formLogin(login -> login
+                        .defaultSuccessUrl("/default"))
                 .build();
     }
 
