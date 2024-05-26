@@ -3,6 +3,8 @@ package com.training.security.controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
+
 @RestController
 public class LoginController {
 
@@ -29,6 +31,11 @@ public class LoginController {
     @GetMapping("/default")
     public String welcomeByDefault() {
         return "Welcome by default";
+    }
+
+    @GetMapping("/")
+    public String getGitHub(Principal user) {
+        return "Welcome " + user.getName();
     }
 
 }
