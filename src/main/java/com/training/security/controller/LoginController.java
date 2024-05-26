@@ -6,6 +6,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LoginController {
 
+    @GetMapping("/home")
+    public String home() {
+        return "Home of the application";
+    }
+
     @GetMapping("/admin")
     public String welcomeAdmin() {
         return "Welcome Admin";

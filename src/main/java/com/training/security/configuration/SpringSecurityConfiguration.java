@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,6 +26,7 @@ public class SpringSecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/home").permitAll()
                         .requestMatchers("/admin").hasRole(RoleType.ADMIN)
                         .requestMatchers("/editor").hasRole(RoleType.EDITOR)
                         .requestMatchers("/user").hasRole(RoleType.USER)
@@ -34,6 +34,8 @@ public class SpringSecurityConfiguration {
                 )
                 .formLogin(login -> login
                         .defaultSuccessUrl("/default"))
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/home"))
                 .build();
     }
 
