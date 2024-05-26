@@ -52,7 +52,8 @@ public class SpringSecurityConfiguration {
                         .defaultSuccessUrl("/default"))
                 .logout(logout -> logout
                         .logoutSuccessUrl("/home"))
-                .rememberMe(Customizer.withDefaults())
+                .rememberMe(remember -> remember
+                        .alwaysRemember(true))
                 .build();
     }
 
