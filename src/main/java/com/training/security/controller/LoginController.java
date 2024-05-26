@@ -35,7 +35,7 @@ public class LoginController {
 
     @GetMapping("/")
     public String getGitHub(Principal user) {
-        return "Welcome " + user.getName();
+        return "Welcome " + user.toString();
     }
 
 }
