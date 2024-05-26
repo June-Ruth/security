@@ -1,4 +1,4 @@
-package com.training.security.entity;
+package com.training.security.authorizationserver.entity;
 
 public final class PrivilegeType {
 

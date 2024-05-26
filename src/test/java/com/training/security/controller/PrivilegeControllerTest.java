@@ -1,6 +1,6 @@
 package com.training.security.controller;
 
-import com.training.security.entity.PrivilegeType;
+import com.training.security.authorizationserver.entity.PrivilegeType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

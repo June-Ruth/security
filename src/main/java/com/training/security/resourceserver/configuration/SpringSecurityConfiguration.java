@@ -1,8 +1,8 @@
-package com.training.security.configuration;
+package com.training.security.resourceserver.configuration;
 
-import com.training.security.entity.PrivilegeType;
-import com.training.security.entity.RoleType;
-import com.training.security.service.CustomUserDetailsService;
+import com.training.security.authorizationserver.entity.PrivilegeType;
+import com.training.security.authorizationserver.entity.RoleType;
+import com.training.security.authorizationserver.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
@@ -13,6 +13,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
@@ -36,6 +37,7 @@ public class SpringSecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/home").permitAll()
                         .requestMatchers("/admin").hasRole(RoleType.ADMIN)
@@ -46,8 +48,7 @@ public class SpringSecurityConfiguration {
                         .requestMatchers("/delete").hasAuthority(PrivilegeType.DELETE)
                         .anyRequest().authenticated()
                 )
-                .formLogin(login -> login
-                        .defaultSuccessUrl("/default"))
+                .httpBasic(Customizer.withDefaults())
                 .oauth2Login(oauth -> oauth
                         .defaultSuccessUrl("/default"))
                 .logout(logout -> logout

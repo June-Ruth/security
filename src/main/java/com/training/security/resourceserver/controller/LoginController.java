@@ -1,4 +1,4 @@
-package com.training.security.controller;
+package com.training.security.resourceserver.controller;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

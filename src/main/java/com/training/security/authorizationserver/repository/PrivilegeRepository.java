@@ -1,6 +1,6 @@
-package com.training.security.repository;
+package com.training.security.authorizationserver.repository;
 
-import com.training.security.entity.Privilege;
+import com.training.security.authorizationserver.entity.Privilege;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PrivilegeRepository extends JpaRepository<Privilege, Integer> {

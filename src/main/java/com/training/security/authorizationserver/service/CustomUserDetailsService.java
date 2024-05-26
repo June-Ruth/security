@@ -1,9 +1,9 @@
-package com.training.security.service;
+package com.training.security.authorizationserver.service;
 
-import com.training.security.entity.AppUser;
-import com.training.security.entity.Privilege;
-import com.training.security.entity.Role;
-import com.training.security.repository.AppUserRepository;
+import com.training.security.authorizationserver.entity.AppUser;
+import com.training.security.authorizationserver.entity.Privilege;
+import com.training.security.authorizationserver.entity.Role;
+import com.training.security.authorizationserver.repository.AppUserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;

@@ -1,9 +1,9 @@
-package com.training.security.configuration;
+package com.training.security.authorizationserver.configuration;
 
-import com.training.security.entity.*;
-import com.training.security.repository.AppUserRepository;
-import com.training.security.repository.PrivilegeRepository;
-import com.training.security.repository.RoleRepository;
+import com.training.security.authorizationserver.entity.*;
+import com.training.security.authorizationserver.repository.AppUserRepository;
+import com.training.security.authorizationserver.repository.PrivilegeRepository;
+import com.training.security.authorizationserver.repository.RoleRepository;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
