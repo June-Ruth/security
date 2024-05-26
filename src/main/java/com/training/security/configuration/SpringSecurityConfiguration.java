@@ -48,7 +48,8 @@ public class SpringSecurityConfiguration {
                 )
                 .formLogin(login -> login
                         .defaultSuccessUrl("/default"))
-                .oauth2Login(Customizer.withDefaults())
+                .oauth2Login(oauth -> oauth
+                        .defaultSuccessUrl("/default"))
                 .logout(logout -> logout
                         .logoutSuccessUrl("/home"))
                 .build();
