@@ -1,6 +1,8 @@
 package com.training.security.service;
 
 import com.training.security.entity.AppUser;
+import com.training.security.entity.Privilege;
+import com.training.security.entity.Role;
 import com.training.security.repository.AppUserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,7 +13,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -25,12 +29,27 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AppUser user = userRepository.findByUsername(username);
-        return new User(user.getUsername(), user.getPassword(), getGrantedAuthorities(user.getRole()));
+        return new User(user.getUsername(), user.getPassword(), getGrantedAuthorities(getPermissions(user.getRole())));
     }
 
-    private List<GrantedAuthority> getGrantedAuthorities(String role) {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
-        return authorities;
+    private List<GrantedAuthority> getGrantedAuthorities(List<String> permissions) {
+        return  permissions.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+    }
+
+    private List<String> getPermissions(Collection<Role> roles) {
+        List<String> permissions = new ArrayList<>();
+        //List<Privilege> collection = new ArrayList<>();
+        for (Role role : roles) {
+            permissions.add("ROLE_" + role.getName());
+            permissions.addAll(role.getPrivileges().stream().map(Privilege::getName).toList());
+            /*collection.addAll(role.getPrivileges());
+        }
+        for (Privilege item : collection) {
+            permissions.add(item.getName());
+        }*/
+        }
+        return permissions;
     }
 }
