@@ -3,7 +3,6 @@ package com.training.security.resourceserver.controller;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
@@ -15,11 +14,11 @@ import java.security.Principal;
 import java.util.Map;
 
 @RestController
-public class LoginController {
+public class ResourceController {
 
     private final OAuth2AuthorizedClientService authorizedClientService;
 
-    public LoginController(OAuth2AuthorizedClientService authorizedClientService) {
+    public ResourceController(OAuth2AuthorizedClientService authorizedClientService) {
         this.authorizedClientService = authorizedClientService;
     }
 
