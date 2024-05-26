@@ -1,5 +1,6 @@
 package com.training.security.configuration;
 
+import com.training.security.entity.PrivilegeType;
 import com.training.security.entity.RoleType;
 import com.training.security.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
@@ -37,6 +38,9 @@ public class SpringSecurityConfiguration {
                         .requestMatchers("/admin").hasRole(RoleType.ADMIN)
                         .requestMatchers("/editor").hasRole(RoleType.EDITOR)
                         .requestMatchers("/user").hasRole(RoleType.USER)
+                        .requestMatchers("/read").hasAuthority(PrivilegeType.READ)
+                        .requestMatchers("/write").hasAuthority(PrivilegeType.WRITE)
+                        .requestMatchers("/delete").hasAuthority(PrivilegeType.DELETE)
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
