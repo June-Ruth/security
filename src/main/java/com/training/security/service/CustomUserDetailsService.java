@@ -40,15 +40,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private List<String> getPermissions(Collection<Role> roles) {
         List<String> permissions = new ArrayList<>();
-        //List<Privilege> collection = new ArrayList<>();
         for (Role role : roles) {
             permissions.add("ROLE_" + role.getName());
             permissions.addAll(role.getPrivileges().stream().map(Privilege::getName).toList());
-            /*collection.addAll(role.getPrivileges());
-        }
-        for (Privilege item : collection) {
-            permissions.add(item.getName());
-        }*/
         }
         return permissions;
     }
