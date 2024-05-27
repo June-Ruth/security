@@ -1,6 +1,7 @@
 package com.training.security.authorizationserver.service;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.JwsHeader;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -27,6 +28,13 @@ public class JwtService {
                 .issuedAt(now) //token  commence maintenant
                 .expiresAt(now.plus(1, ChronoUnit.DAYS)) //valable pendant 1 journée
                 .subject(authentication.getName())
+                .claim(
+                        "authorities",
+                        authentication.getAuthorities()
+                                .stream()
+                                .map(GrantedAuthority::getAuthority)
+                                .toList()
+                )
                 .build();
         JwtEncoderParameters parameters = JwtEncoderParameters.from(JwsHeader.with(MacAlgorithm.HS256).build(), claims);
         return this.jwtEncoder.encode(parameters).getTokenValue();

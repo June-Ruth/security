@@ -15,6 +15,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -29,17 +31,17 @@ public class SpringSecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        /*.requestMatchers("/home").permitAll()
+                        .requestMatchers("/home").permitAll()
                         .requestMatchers("/admin").hasRole(RoleType.ADMIN)
                         .requestMatchers("/editor").hasRole(RoleType.EDITOR)
                         .requestMatchers("/user").hasRole(RoleType.USER)
                         .requestMatchers("/read").hasAuthority(PrivilegeType.READ)
                         .requestMatchers("/write").hasAuthority(PrivilegeType.WRITE)
-                        .requestMatchers("/delete").hasAuthority(PrivilegeType.DELETE)*/
+                        .requestMatchers("/delete").hasAuthority(PrivilegeType.DELETE)
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())
-                .oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults()))
+                .oauth2ResourceServer(oauth -> oauth.jwt(jwt -> jwt.jwtAuthenticationConverter(customJwtAuthenticationConverter())))
                 .oauth2Login(oauth -> oauth
                         .defaultSuccessUrl("/default"))
                 .logout(logout -> logout
@@ -67,4 +69,20 @@ public class SpringSecurityConfiguration {
                 .build();
     }
 
+    @Bean
+    public JwtAuthenticationConverter customJwtAuthenticationConverter() {
+        JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
+        converter.setJwtGrantedAuthoritiesConverter(new CustomJwtGrantedAuthoritiesConverter());
+        return converter;
+    }
+
+    /*@Bean
+    public JwtAuthenticationConverter jwtAuthenticationConverter() {
+        JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
+        grantedAuthoritiesConverter.setAuthoritiesClaimName("authorities");
+
+        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
+        return jwtAuthenticationConverter;
+    }*/
 }
